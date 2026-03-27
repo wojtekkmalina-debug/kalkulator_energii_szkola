@@ -36,8 +36,8 @@ st.markdown("""
 /* Ukryj domyślny header/footer */
 #MainMenu, header, footer { visibility: hidden; }
 
-/* === ZAKŁADKI === */
-.stTabs [data-baseweb="tab-list"] {
+/* === ZAKŁADKI / RADIO === */
+div[role="radiogroup"] {
     gap: 3px;
     background: #1a3528 !important;
     padding: 5px;
@@ -45,45 +45,47 @@ st.markdown("""
     flex-wrap: wrap;
     border: 1px solid #2a5040;
 }
-.stTabs [data-baseweb="tab"] {
+div[role="radiogroup"] label {
+    background: transparent !important;
     border-radius: 10px !important;
     padding: 6px 8px !important;
+    margin: 0 !important;
+}
+div[role="radiogroup"] label p {
     font-weight: 700 !important;
     font-size: 0.78rem !important;
     color: #6ee7b7 !important;
-    background: transparent !important;
-    border: none !important;
 }
-.stTabs [aria-selected="true"] {
-    background: #22c55e !important;
-    color: #0a1a10 !important;
-}
-.stTabs [data-baseweb="tab-highlight"],
-.stTabs [data-baseweb="tab-border"] {
+div[role="radiogroup"] label[data-baseweb="radio"] > div:first-child {
     display: none !important;
+}
+div[role="radiogroup"] label:has(input:checked) {
+    background: #22c55e !important;
+}
+div[role="radiogroup"] label:has(input:checked) p {
+    color: #0a1a10 !important;
 }
 
 /* === PRZYCISKI === */
 .stButton > button {
-    background: #22c55e !important;
-    color: #052e16 !important;
+    background: #16a34a !important;
+    color: #ecfdf5 !important;
     border: none !important;
     border-radius: 14px !important;
     font-family: 'Nunito', sans-serif !important;
-    font-weight: 900 !important;
-    font-size: 1.05rem !important;
-    padding: 14px 0 !important;
+    font-weight: 800 !important;
+    font-size: 1rem !important;
+    padding: 13px 0 !important;
     width: 100% !important;
-    letter-spacing: 0.02em !important;
-    box-shadow: 0 4px 20px rgba(34,197,94,0.4) !important;
+    letter-spacing: 0.01em !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25) !important;
     transition: all 0.18s ease !important;
     cursor: pointer !important;
 }
 .stButton > button:hover {
-    background: #16a34a !important;
+    background: #15803d !important;
     color: #ffffff !important;
-    box-shadow: 0 6px 26px rgba(34,197,94,0.55) !important;
-    transform: translateY(-2px) !important;
+    transform: translateY(-1px) !important;
 }
 
 /* === SUWAKI === */
@@ -118,7 +120,10 @@ h1, h2, h3, h4, h5 {
     text-align: center;
     box-shadow: 0 8px 32px rgba(0,0,0,0.45);
 }
-.welcome-card .emoji { font-size: 2.6rem; margin-bottom: 8px; }
+.welcome-card .emoji {
+    font-size: 2.6rem;
+    margin-bottom: 8px;
+}
 .welcome-card h2 {
     font-size: 1.4rem;
     font-weight: 900;
@@ -132,7 +137,9 @@ h1, h2, h3, h4, h5 {
     line-height: 1.65;
     margin: 0;
 }
-.welcome-card strong { color: #86efac !important; }
+.welcome-card strong {
+    color: #86efac !important;
+}
 
 .info-card {
     background: #1a3528;
@@ -145,7 +152,9 @@ h1, h2, h3, h4, h5 {
     font-size: 0.92rem;
     line-height: 1.6;
 }
-.info-card b { color: #86efac !important; }
+.info-card b {
+    color: #86efac !important;
+}
 
 .section-title {
     font-size: 1.1rem;
@@ -235,9 +244,21 @@ h1, h2, h3, h4, h5 {
     align-items: center;
     gap: 13px;
 }
-.compare-card .cicon { font-size: 1.8rem; min-width: 36px; text-align: center; }
-.compare-card .cval { font-size: 1.1rem; font-weight: 900; color: #f0fdf4; }
-.compare-card .cdesc { font-size: 0.78rem; color: #6ee7b7; margin-top: 2px; }
+.compare-card .cicon {
+    font-size: 1.8rem;
+    min-width: 36px;
+    text-align: center;
+}
+.compare-card .cval {
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #f0fdf4;
+}
+.compare-card .cdesc {
+    font-size: 0.78rem;
+    color: #6ee7b7;
+    margin-top: 2px;
+}
 
 .footer-card {
     background: #1a3528;
@@ -247,41 +268,51 @@ h1, h2, h3, h4, h5 {
     text-align: center;
     margin-top: 12px;
 }
-.footer-card .fmsg { font-weight: 800; color: #86efac; font-size: 0.95rem; line-height: 1.55; }
-.footer-card .fsub { font-size: 0.76rem; color: #4ade80; margin-top: 8px; }
+.footer-card .fmsg {
+    font-weight: 800;
+    color: #86efac;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+.footer-card .fsub {
+    font-size: 0.76rem;
+    color: #4ade80;
+    margin-top: 8px;
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ── SESSION STATE – domyślne wartości ze szkoły ────────────────
 defaults = {
-    'sale_lekcyjne':      40,
-    'przerwy_godz':       1.5,
-    'cena_pradu':         1.05,
-    'cena_ciepla':        110.0,
+    'sale_lekcyjne': 40,
+    'przerwy_godz': 1.5,
+    'cena_pradu': 1.05,
+    'cena_ciepla': 110.0,
     'inne_pomieszczenia': 25,
-    'proc_swiatla':       30,
-    'urzadzenia':         135,
-    'proc_standby':       40,
-    'wietrzenia_dzien':   4,
-    'proc_wietrzenie':    55,
+    'proc_swiatla': 30,
+    'urzadzenia': 135,
+    'proc_standby': 40,
+    'wietrzenia_dzien': 4,
+    'proc_wietrzenie': 55,
 }
 for k, v in defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
-# ── ZAKŁADKI ───────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "🏠 Start",
-    "💡 Oświetlenie",
-    "🔌 Standby",
-    "🔥 Ogrzewanie",
-    "📊 Wyniki",
-])
+if "page" not in st.session_state:
+    st.session_state.page = 0
 
-# ═══════════════════════════════════════════════════════════════
-# TAB 1 – START
-# ═══════════════════════════════════════════════════════════════
-with tab1:
+tabs = ["🏠 Start", "💡 Oświetlenie", "🔌 Standby", "🔥 Ogrzewanie", "📊 Wyniki"]
+
+selected = st.radio(
+    "",
+    tabs,
+    index=st.session_state.page,
+    horizontal=True
+)
+
+st.session_state.page = tabs.index(selected)
+
+if st.session_state.page == 0:
     st.markdown("""
     <div class="welcome-card">
         <div class="emoji">🌿</div>
@@ -326,7 +357,7 @@ with tab1:
         format="%.2f zł"
     )
     st.session_state.cena_ciepla = st.slider(
-        f"🔥 Cena energii cieplnej (zł / GJ)  —  cena na {today}",
+        f"🔥 Cena energii cieplnej (zł / GJ) — cena na {today}",
         min_value=20.0, max_value=350.0,
         value=float(st.session_state.cena_ciepla), step=1.0,
         format="%.0f zł"
@@ -335,12 +366,11 @@ with tab1:
     st.markdown("<br>", unsafe_allow_html=True)
     col_l, col_c, col_r = st.columns([1, 4, 1])
     with col_c:
-        st.button("Dalej  →  Oświetlenie 💡", key="btn_1")
+        if st.button("Dalej", key="btn_1"):
+            st.session_state.page = 1
+            st.rerun()
 
-# ═══════════════════════════════════════════════════════════════
-# TAB 2 – OŚWIETLENIE
-# ═══════════════════════════════════════════════════════════════
-with tab2:
+elif st.session_state.page == 1:
     st.markdown('<div class="section-title">💡 Oświetlenie</div>', unsafe_allow_html=True)
     st.markdown("""
     <div class="tip-box">
@@ -384,12 +414,11 @@ with tab2:
     st.markdown("<br>", unsafe_allow_html=True)
     col_l, col_c, col_r = st.columns([1, 4, 1])
     with col_c:
-        st.button("Dalej  →  Standby 🔌", key="btn_2")
+        if st.button("Dalej", key="btn_2"):
+            st.session_state.page = 2
+            st.rerun()
 
-# ═══════════════════════════════════════════════════════════════
-# TAB 3 – STANDBY
-# ═══════════════════════════════════════════════════════════════
-with tab3:
+elif st.session_state.page == 2:
     st.markdown('<div class="section-title">🔌 Tryb czuwania – Standby</div>', unsafe_allow_html=True)
     st.markdown("""
     <div class="tip-box">
@@ -434,12 +463,11 @@ with tab3:
     st.markdown("<br>", unsafe_allow_html=True)
     col_l, col_c, col_r = st.columns([1, 4, 1])
     with col_c:
-        st.button("Dalej  →  Ogrzewanie 🔥", key="btn_3")
+        if st.button("Dalej", key="btn_3"):
+            st.session_state.page = 3
+            st.rerun()
 
-# ═══════════════════════════════════════════════════════════════
-# TAB 4 – OGRZEWANIE
-# ═══════════════════════════════════════════════════════════════
-with tab4:
+elif st.session_state.page == 3:
     st.markdown('<div class="section-title">🔥 Ogrzewanie</div>', unsafe_allow_html=True)
     st.markdown("""
     <div class="tip-box">
@@ -484,12 +512,11 @@ with tab4:
     st.markdown("<br>", unsafe_allow_html=True)
     col_l, col_c, col_r = st.columns([1, 4, 1])
     with col_c:
-        st.button("Dalej  →  Wyniki 📊", key="btn_4")
+        if st.button("Dalej", key="btn_4"):
+            st.session_state.page = 4
+            st.rerun()
 
-# ═══════════════════════════════════════════════════════════════
-# TAB 5 – WYNIKI
-# ═══════════════════════════════════════════════════════════════
-with tab5:
+elif st.session_state.page == 4:
     _s_kwh = (
         (st.session_state.sale_lekcyjne + st.session_state.inne_pomieszczenia)
         * st.session_state.przerwy_godz * 0.5
@@ -514,7 +541,7 @@ with tab5:
     _c_zl = _c_gj * st.session_state.cena_ciepla
 
     _total_kwh = _s_kwh + _sb_kwh
-    _total_zl  = _s_zl + _sb_zl + _c_zl
+    _total_zl = _s_zl + _sb_zl + _c_zl
 
     st.markdown('<div class="section-title">📊 Podsumowanie roczne</div>', unsafe_allow_html=True)
 
@@ -556,7 +583,6 @@ with tab5:
             <div class="rvalue">{_c_zl:.0f}</div>
             <div class="runit">zł / rok</div></div>""", unsafe_allow_html=True)
 
-    # Łączny koszt
     total_str = f"{_total_zl:,.0f}".replace(",", "\u202f")
     st.markdown(f"""
     <div class="total-card">
@@ -566,20 +592,19 @@ with tab5:
     </div>
     """, unsafe_allow_html=True)
 
-    # Porównania
     st.markdown('<div class="section-title">🌍 To tyle samo co…</div>', unsafe_allow_html=True)
 
-    co2_kg    = _total_kwh * 0.75
-    drzewa    = max(1, int(co2_kg / 22))
-    co2_tony  = round(co2_kg / 1000, 2)
+    co2_kg = _total_kwh * 0.75
+    drzewa = max(1, int(co2_kg / 22))
+    co2_tony = round(co2_kg / 1000, 2)
     ton_wegla = round(_total_kwh * 0.00034, 2)
-    km_auto   = int(_total_kwh * 6.5)
-    rolki     = int(_total_kwh * 100)
+    km_auto = int(_total_kwh * 6.5)
+    rolki = int(_total_kwh * 100)
 
     comparisons = [
-        ("🌳", f"{drzewa} drzew",        "tyle drzew musiałoby rosnąć rok, by pochłonąć tyle CO₂"),
-        ("☁️", f"{co2_tony} t CO₂",       "tyle dwutlenku węgla zostało wyemitowane"),
-        ("⚫", f"{ton_wegla} t węgla",     "tyle węgla spalono, by wyprodukować tę energię"),
+        ("🌳", f"{drzewa} drzew", "tyle drzew musiałoby rosnąć rok, by pochłonąć tyle CO₂"),
+        ("☁️", f"{co2_tony} t CO₂", "tyle dwutlenku węgla zostało wyemitowane"),
+        ("⚫", f"{ton_wegla} t węgla", "tyle węgla spalono, by wyprodukować tę energię"),
         ("🚗", f"{km_auto:,} km".replace(",", "\u202f"), "tyle kilometrów przejechałby samochód"),
         ("🧻", f"{rolki:,} rolek".replace(",", "\u202f"), "tyle rolek papieru toaletowego można by wyprodukować"),
     ]
@@ -607,6 +632,6 @@ with tab5:
         </div>
     </div>
     """, unsafe_allow_html=True)
-
+   
 
 
