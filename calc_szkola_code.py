@@ -1,5 +1,4 @@
 import streamlit as st
-from datetime import date
 
 st.set_page_config(
     page_title="EkoKalkulator – Prądziaki",
@@ -7,8 +6,6 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="collapsed"
 )
-
-today = date.today().strftime("%d.%m.%Y")
 
 if "ui_theme" not in st.session_state:
     st.session_state.ui_theme = "light"
@@ -301,6 +298,10 @@ h1, h2, h3, h4, h5 {
     font-size: 1.8rem;
     min-width: 36px;
     text-align: center;
+}
+.compare-card .cicon-coal {
+    display: inline-block;
+    filter: grayscale(1) brightness(0.12);
 }
 .compare-card .cval {
     font-size: 1.1rem;
@@ -688,6 +689,10 @@ h1, h2, h3, h4, h5 {
     min-width: 36px;
     text-align: center;
 }
+.compare-card .cicon-coal {
+    display: inline-block;
+    filter: grayscale(1) brightness(0.45) contrast(1.1);
+}
 .compare-card .cval {
     font-size: 1.1rem;
     font-weight: 900;
@@ -905,7 +910,7 @@ if st.session_state.page == 0:
     st.markdown('<div class="section-title">⚙️ Dane podstawowe szkoły</div>', unsafe_allow_html=True)
 
     st.session_state.sale_lekcyjne = st.slider(
-        "🏫 Sal lekcyjnych",
+        "🏫 Ilość sal lekcyjnych",
         min_value=5, max_value=80,
         value=int(st.session_state.sale_lekcyjne), step=1
     )
@@ -922,7 +927,7 @@ if st.session_state.page == 0:
         format="%.2f zł"
     )
     st.session_state.cena_ciepla = st.slider(
-        f"🔥 Ciepło (zł/GJ) — {today}",
+        "🔥 Ciepło (zł/GJ)",
         min_value=20.0, max_value=350.0,
         value=float(st.session_state.cena_ciepla), step=1.0,
         format="%.0f zł"
@@ -949,7 +954,7 @@ elif st.session_state.page == 1:
         value=int(st.session_state.inne_pomieszczenia), step=1
     )
     st.session_state.proc_swiatla = st.slider(
-        "🔦 % nie gaszących światła przy wyjściu",
+        "🔦 % osób nie gaszących światła",
         min_value=0, max_value=100,
         value=int(st.session_state.proc_swiatla), step=1,
         format="%d%%"
@@ -994,12 +999,12 @@ elif st.session_state.page == 2:
     """, unsafe_allow_html=True)
 
     st.session_state.urzadzenia = st.slider(
-        "🖥️ Urządzeń (PC, tablice, rzutniki…)",
+        "🖥️ Ilość urządzeń (PC, tablice, rzutniki…)",
         min_value=5, max_value=400,
         value=int(st.session_state.urzadzenia), step=1
     )
     st.session_state.proc_standby = st.slider(
-        "🔴 % włączonych urządzeń w przerwie",
+        "🔴 % włączonych urządzeń podczas przerwy",
         min_value=0, max_value=100,
         value=int(st.session_state.proc_standby), step=1,
         format="%d%%"
@@ -1045,12 +1050,12 @@ elif st.session_state.page == 3:
     """, unsafe_allow_html=True)
 
     st.session_state.wietrzenia_dzien = st.slider(
-        "🌬️ Wietrzeń dziennie (zima)",
+        "🌬️ Ilość wietrzeń dziennie",
         min_value=1, max_value=15,
         value=int(st.session_state.wietrzenia_dzien), step=1
     )
     st.session_state.proc_wietrzenie = st.slider(
-        "❌ % nieprawidłowego wietrzenia",
+        "❌ % osób nieprawidłowo wietrzących sale",
         min_value=0, max_value=100,
         value=int(st.session_state.proc_wietrzenie), step=1,
         format="%d%%"
@@ -1178,7 +1183,7 @@ elif st.session_state.page == 4:
     comparisons = [
         ("🌳", f"{drzewa} drzew", "tyle drzew musiałoby rosnąć rok, by pochłonąć tyle CO₂"),
         ("☁️", f"{co2_tony} t CO₂", "tyle dwutlenku węgla zostało wyemitowane"),
-        ("⚫", f"{ton_wegla} t węgla", "tyle węgla spalono, by wyprodukować tę energię"),
+        ('<span class="cicon-coal">🪨</span>', f"{ton_wegla} t węgla", "tyle węgla spalono, by wyprodukować tę energię"),
         ("🚗", f"{km_auto:,} km".replace(",", "\u202f"), "tyle kilometrów przejechałby samochód"),
         (
             "🧻",
